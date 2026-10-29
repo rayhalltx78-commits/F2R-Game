@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Zyll — The Lost Kingdom</title>
+<style>
+:root{--gold:#d9ad52;--gold2:#f4d681;--ink:#080b11;--panel:#111720;--panel2:#1a2029;--line:#67502c;--text:#eee7d8;--muted:#b5b0a5;--red:#a93d36;--green:#4b8b5b}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#07090d;color:var(--text);font-family:Georgia,"Times New Roman",serif}
+body{padding:12px;background:radial-gradient(ellipse at top,#1b2431 0,#090c12 65%);touch-action:manipulation}
+button{font:inherit;color:var(--text);cursor:pointer;touch-action:manipulation}
+.app{width:min(100%,900px);margin:auto;border:1px solid #53452f;border-radius:18px;overflow:hidden;background:linear-gradient(145deg,#0b1018,#080a0e);box-shadow:0 16px 50px #000b}
+header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 17px;border-bottom:1px solid var(--line);background:#0b1017}
+.brand{font-size:clamp(19px,4vw,27px);letter-spacing:3px;color:var(--gold2);text-shadow:0 2px 8px #b77724}.subtitle{font:10px Arial,sans-serif;letter-spacing:2px;color:#a9a39a;margin-top:3px}
+.stats{display:flex;gap:12px;font:12px Arial,sans-serif;color:var(--muted);text-align:right}.stats b{display:block;color:var(--gold2);font-size:16px;margin-top:3px}
+main{padding:14px;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(210px,.8fr);gap:13px}
+.scene{position:relative;min-height:270px;border:1px solid #5c4829;border-radius:10px;overflow:hidden;background:linear-gradient(#0d1525 0%,#172333 42%,#29231d 70%,#0d1014 100%);isolation:isolate}
+.scene:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 58%,#e39a3b55 0,transparent 28%),linear-gradient(180deg,transparent 45%,#06080c 100%);z-index:-1}
+.moon{position:absolute;right:13%;top:12%;width:44px;height:44px;border-radius:50%;background:#d4d5d1;box-shadow:0 0 25px #8fa9d955}
+.tower{position:absolute;bottom:27%;background:#10151e;border:1px solid #30333b;clip-path:polygon(0 100%,0 25%,20% 25%,20% 0,45% 0,45% 20%,65% 20%,65% 8%,83% 8%,83% 100%);width:30%;height:65%;left:12%}
+.tower.right{left:auto;right:9%;width:35%;height:78%;filter:brightness(.82)}
+.gate{position:absolute;bottom:0;left:34%;width:34%;height:57%;border:9px solid #302c2a;border-bottom:0;border-radius:45% 45% 0 0;background:linear-gradient(90deg,#080b10,#22252a 45%,#090c11);box-shadow:inset 0 0 0 2px #5b4a36}
+.gate:after{content:"";position:absolute;bottom:0;left:25%;width:50%;height:65%;border:3px solid #54402b;border-bottom:0;border-radius:50% 50% 0 0;background:linear-gradient(#080b10,#17120e)}
+.torch{position:absolute;bottom:28%;width:7px;height:27px;background:#a36b31;left:30%;box-shadow:0 0 15px 7px #ff8c2c88}
+.torch:after{content:"";position:absolute;top:-12px;left:-4px;width:14px;height:16px;background:#ffd37b;clip-path:polygon(50% 0,100% 55%,65% 100%,25% 90%,0 48%);filter:drop-shadow(0 0 7px #ff9b32)}
+.torch.t2{left:70%}
+.scene-caption{position:absolute;left:14px;right:14px;bottom:12px;padding:8px 10px;border:1px solid #65502c;background:#080b10d9;border-radius:6px;font-size:14px;color:#f3e4bf}
+.panel{border:1px solid var(--line);border-radius:10px;background:linear-gradient(145deg,#171b22,#0d1117);padding:13px;min-width:0}
+h2{font-size:19px;font-weight:normal;color:var(--gold2);margin:0 0 9px}p{font-size:14px;line-height:1.5;margin:0 0 12px;color:#ded9ce}
+.log{height:82px;overflow:auto;font:12px/1.45 Arial,sans-serif;color:#bfc6cf;border-top:1px solid #3a3327;padding-top:8px;margin-top:10px}
+.actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}
+.action,.navbtn,.choice{border:1px solid #65502c;background:linear-gradient(#29241b,#11141a);border-radius:7px;padding:12px 8px;min-height:47px;font-size:14px;text-align:center}
+.action:active,.navbtn:active,.choice:active{border-color:var(--gold2);background:#45351d}
+.action.primary{border-color:var(--gold);color:var(--gold2)}
+.side-stack{display:grid;gap:12px;align-content:start}
+.statusline{display:flex;justify-content:space-between;gap:8px;font:12px Arial,sans-serif;color:var(--muted);margin:8px 0}
+.bar{height:8px;background:#342a2a;border-radius:5px;overflow:hidden;margin:5px 0 10px}.bar span{display:block;height:100%;width:100%;background:linear-gradient(90deg,#7c2525,#d85243)}
+nav{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 14px 14px}
+.navbtn{min-height:49px;font:12px Arial,sans-serif;letter-spacing:.5px}
+.navbtn.active{border-color:var(--gold2);color:var(--gold2);box-shadow:inset 0 0 0 1px #9c7738}
+.hidden{display:none!important}.wide{grid-column:1/-1}
+.inventory-list{display:grid;gap:8px}.item{display:flex;align-items:center;gap:10px;border:1px solid #39342a;background:#0b1016;border-radius:6px;padding:10px}.item .ico{font-size:24px;width:32px;text-align:center}.item small{display:block;color:var(--muted);font:12px Arial,sans-serif;margin-top:3px}
+.map-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;max-width:360px;margin:10px auto}.room{aspect-ratio:1;border:1px solid #666;background:#171c24;border-radius:4px}.room.seen{background:#26354a}.room.here{background:#b78a2e;box-shadow:0 0 10px #d9ad5277}.room.locked{background:#542b2b}
+footer{padding:11px 15px;border-top:1px solid #302a20;color:#8d8b86;font:11px Arial,sans-serif;display:flex;justify-content:space-between;gap:8px}
+@media(max-width:650px){body{padding:5px}.app{border-radius:12px}header{padding:11px}.stats{gap:7px}main{grid-template-columns:1fr;padding:9px;gap:9px}.scene{min-height:235px}.side-stack{grid-template-columns:1fr 1fr}.panel{padding:11px}nav{padding:0 9px 9px;gap:5px}.navbtn{padding:9px 4px;font-size:11px}.scene-caption{font-size:13px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div><div class="brand">ZYLL</div><div class="subtitle">THE LOST KINGDOM · TOUCH PROTOTYPE</div></div><div class="stats"><div>HEALTH<b id="headHp">24 / 24</b></div><div>GOLD<b id="gold">0</b></div></div></header>
+<main>
+<section class="scene" id="scene"><div class="moon"></div><div class="tower"></div><div class="tower right"></div><div class="gate"></div><div class="torch"></div><div class="torch t2"></div><div class="scene-caption" id="sceneCaption">The Ancient Gate · The road ends at a sealed gate.</div></section>
+<div class="side-stack">
+<section class="panel" id="storyPanel"><h2 id="roomTitle">The Ancient Gate</h2><p id="description">Cold mist drifts between the old stones. A faint orange light flickers beyond the gate. The path behind you has vanished into the dark.</p><div class="actions" id="exploreActions"><button class="action primary" onclick="look()">Look around</button><button class="action" onclick="moveNorth()">Go north</button><button class="action" onclick="openGate()">Open gate</button><button class="action" onclick="encounter()">Enter ruins</button></div><div class="log" id="log">You arrive at the edge of the lost kingdom.</div></section>
+<section class="panel" id="statusPanel"><h2>Adventurer</h2><div class="statusline"><span>Health</span><b id="hpText">24 / 24</b></div><div class="bar"><span id="hpBar"></span></div><div class="statusline"><span>Weapon</span><b>Old sword</b></div><div class="statusline"><span>Location</span><b id="locText">Gate</b></div><div class="statusline"><span>Level</span><b>1</b></div></section>
+<section class="panel hidden" id="combatPanel"><h2>Goblin encounter</h2><p id="enemyText">A goblin leaps from the shadows!</p><div class="statusline"><span>Goblin HP</span><b id="enemyHp">12 / 12</b></div><div class="bar"><span id="enemyBar"></span></div><div class="actions"><button class="action primary" onclick="attack()">Attack</button><button class="action" onclick="defend()">Defend</button><button class="action" onclick="potion()">Use potion</button><button class="action" onclick="runAway()">Run</button></div></section>
+<section class="panel hidden" id="inventoryPanel"><h2>Inventory</h2><div class="inventory-list"><div class="item"><span class="ico">⚔️</span><div>Old sword<small>Equipped · Basic weapon</small></div></div><div class="item"><span class="ico">🧪</span><div>Healing potion <small id="potionCount">1 remaining</small></div></div><div class="item"><span class="ico">🗝️</span><div>Ancient key<small id="keyState">Not found</small></div></div></div></section>
+<section class="panel hidden" id="mapPanel"><h2>Map of the Ruins</h2><p>Explore to reveal more of the lost kingdom.</p><div class="map-grid"><span></span><span class="room seen"></span><span class="room seen"></span><span class="room"></span><span></span><span class="room seen"></span><span class="room here" id="mapHere"></span><span class="room"></span><span class="room locked"></span><span></span><span></span><span class="room seen"></span><span class="room"></span><span class="room"></span><span></span></div><p style="font-size:12px;color:#b5b0a5">Gold = current location · Blue = explored · Red = locked</p></section>
+<section class="panel hidden" id="questPanel"><h2>Quest</h2><p id="questText">Find a way through the Ancient Gate and discover what happened to Zyll.</p><div class="statusline"><span>Objective</span><b id="questState">Find the key</b></div></section>
+</div>
+</main>
+<nav><button class="navbtn active" data-view="storyPanel" onclick="showView('storyPanel',this)">EXPLORE</button><button class="navbtn" data-view="inventoryPanel" onclick="showView('inventoryPanel',this)">INVENTORY</button><button class="navbtn" data-view="mapPanel" onclick="showView('mapPanel',this)">MAP</button><button class="navbtn" data-view="questPanel" onclick="showView('questPanel',this)">QUEST</button></nav>
+<footer><span>Prototype 0.1 · Placeholder artwork</span><span>Touch controls enabled · Single player</span></footer>
+</div>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+let hp=24,maxHp=24,gold=0,potions=1,keyFound=false,enemyHp=12,inCombat=false,defending=false,room=0;
+function log(s){$('log').textContent=s}
+function update(){ $('headHp').textContent=hp+' / '+maxHp;$('hpText').textContent=hp+' / '+maxHp;$('hpBar').style.width=(hp/maxHp*100)+'%';$('gold').textContent=gold;$('potionCount').textContent=potions+' remaining';$('keyState').textContent=keyFound?'Found':'Not found';$('enemyHp').textContent=Math.max(0,enemyHp)+' / 12';$('enemyBar').style.width=(Math.max(0,enemyHp)/12*100)+'%';$('locText').textContent=room===0?'Gate':room===1?'Outer Ruins':room===2?'Inner Hall':'Gate';$('questState').textContent=keyFound?'Open the ancient gate':'Find the key';}
+function showView(id,btn){['storyPanel','inventoryPanel','mapPanel','questPanel','combatPanel'].forEach(x=>$(x).classList.add('hidden'));$(id).classList.remove('hidden');document.querySelectorAll('.navbtn').forEach(x=>x.classList.remove('active'));if(btn)btn.classList.add('active');}
+function look(){log('You notice a narrow path to the east and a key-shaped hollow in the gate.');keyFound=true;$('keyState').textContent='Found';$('questState').textContent='Open the ancient gate';}
+function moveNorth(){room=1;$('roomTitle').textContent='Outer Ruins';$('sceneCaption').textContent='Outer Ruins · Broken pillars line a narrow path.';$('description').textContent='The stones are cracked with age. Something moves behind a fallen pillar. You can return to the gate or enter the inner hall.';$('locText').textContent='Outer Ruins';log('You step carefully into the outer ruins.');update();}
+function openGate(){if(!keyFound){log('The gate will not move. You need to search for a key.');return;}room=2;$('roomTitle').textContent='The Inner Hall';$('sceneCaption').textContent='Inner Hall · A warm light flickers beyond the arch.';$('description').textContent='The gate groans open. Beyond it, a long hall descends beneath the ruined castle.';$('locText').textContent='Inner Hall';gold+=10;log('The ancient key turns. You find 10 gold coins beyond the gate.');update();}
+function encounter(){showView('combatPanel',null);inCombat=true;enemyHp=12;$('enemyText').textContent='A goblin leaps from the shadows!';log('Combat begins. Choose an action.');update();}
+function enemyTurn(){if(!inCombat)return;let damage=defending?Math.floor(Math.random()*3):2+Math.floor(Math.random()*4);defending=false;hp=Math.max(0,hp-damage);log('The goblin strikes for '+damage+' damage.');if(hp===0){inCombat=false;$('enemyText').textContent='You have fallen. The prototype can be restarted by refreshing.';}update();}
+function attack(){if(!inCombat)return;let damage=3+Math.floor(Math.random()*5);enemyHp=Math.max(0,enemyHp-damage);if(enemyHp===0){inCombat=false;gold+=15;$('enemyText').textContent='Goblin defeated! You find 15 gold coins.';log('Victory! You collect 15 gold.');showView('storyPanel',document.querySelector('[data-view="storyPanel"]'));}else{log('You strike the goblin for '+damage+' damage.');enemyTurn();}update();}
+function defend(){if(!inCombat)return;defending=true;log('You brace for the attack.');enemyTurn();update();}
+function potion(){if(!inCombat)return;if(potions<1){log('No healing potions remain.');return;}if(hp===maxHp){log('Your health is already full.');return;}potions--;hp=Math.min(maxHp,hp+10);log('You use a healing potion and recover 10 health.');enemyTurn();update();}
+function runAway(){if(!inCombat)return;inCombat=false;showView('storyPanel',document.querySelector('[data-view="storyPanel"]'));log('You escape back into the ruins.');}
+update();
+</script>
+</body>
+</html>
