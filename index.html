@@ -1,84 +1,127 @@
 <!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Zyll — The Lost Kingdom</title>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Forge to Rise</title>
 <style>
-:root{--gold:#d9ad52;--gold2:#f4d681;--ink:#080b11;--panel:#111720;--panel2:#1a2029;--line:#67502c;--text:#eee7d8;--muted:#b5b0a5;--red:#a93d36;--green:#4b8b5b}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#07090d;color:var(--text);font-family:Georgia,"Times New Roman",serif}
-body{padding:12px;background:radial-gradient(ellipse at top,#1b2431 0,#090c12 65%);touch-action:manipulation}
-button{font:inherit;color:var(--text);cursor:pointer;touch-action:manipulation}
-.app{width:min(100%,900px);margin:auto;border:1px solid #53452f;border-radius:18px;overflow:hidden;background:linear-gradient(145deg,#0b1018,#080a0e);box-shadow:0 16px 50px #000b}
-header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 17px;border-bottom:1px solid var(--line);background:#0b1017}
-.brand{font-size:clamp(19px,4vw,27px);letter-spacing:3px;color:var(--gold2);text-shadow:0 2px 8px #b77724}.subtitle{font:10px Arial,sans-serif;letter-spacing:2px;color:#a9a39a;margin-top:3px}
-.stats{display:flex;gap:12px;font:12px Arial,sans-serif;color:var(--muted);text-align:right}.stats b{display:block;color:var(--gold2);font-size:16px;margin-top:3px}
-main{padding:14px;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(210px,.8fr);gap:13px}
-.scene{position:relative;min-height:270px;border:1px solid #5c4829;border-radius:10px;overflow:hidden;background:linear-gradient(#0d1525 0%,#172333 42%,#29231d 70%,#0d1014 100%);isolation:isolate}
-.scene:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 58%,#e39a3b55 0,transparent 28%),linear-gradient(180deg,transparent 45%,#06080c 100%);z-index:-1}
-.moon{position:absolute;right:13%;top:12%;width:44px;height:44px;border-radius:50%;background:#d4d5d1;box-shadow:0 0 25px #8fa9d955}
-.tower{position:absolute;bottom:27%;background:#10151e;border:1px solid #30333b;clip-path:polygon(0 100%,0 25%,20% 25%,20% 0,45% 0,45% 20%,65% 20%,65% 8%,83% 8%,83% 100%);width:30%;height:65%;left:12%}
-.tower.right{left:auto;right:9%;width:35%;height:78%;filter:brightness(.82)}
-.gate{position:absolute;bottom:0;left:34%;width:34%;height:57%;border:9px solid #302c2a;border-bottom:0;border-radius:45% 45% 0 0;background:linear-gradient(90deg,#080b10,#22252a 45%,#090c11);box-shadow:inset 0 0 0 2px #5b4a36}
-.gate:after{content:"";position:absolute;bottom:0;left:25%;width:50%;height:65%;border:3px solid #54402b;border-bottom:0;border-radius:50% 50% 0 0;background:linear-gradient(#080b10,#17120e)}
-.torch{position:absolute;bottom:28%;width:7px;height:27px;background:#a36b31;left:30%;box-shadow:0 0 15px 7px #ff8c2c88}
-.torch:after{content:"";position:absolute;top:-12px;left:-4px;width:14px;height:16px;background:#ffd37b;clip-path:polygon(50% 0,100% 55%,65% 100%,25% 90%,0 48%);filter:drop-shadow(0 0 7px #ff9b32)}
-.torch.t2{left:70%}
-.scene-caption{position:absolute;left:14px;right:14px;bottom:12px;padding:8px 10px;border:1px solid #65502c;background:#080b10d9;border-radius:6px;font-size:14px;color:#f3e4bf}
-.panel{border:1px solid var(--line);border-radius:10px;background:linear-gradient(145deg,#171b22,#0d1117);padding:13px;min-width:0}
-h2{font-size:19px;font-weight:normal;color:var(--gold2);margin:0 0 9px}p{font-size:14px;line-height:1.5;margin:0 0 12px;color:#ded9ce}
-.log{height:82px;overflow:auto;font:12px/1.45 Arial,sans-serif;color:#bfc6cf;border-top:1px solid #3a3327;padding-top:8px;margin-top:10px}
-.actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}
-.action,.navbtn,.choice{border:1px solid #65502c;background:linear-gradient(#29241b,#11141a);border-radius:7px;padding:12px 8px;min-height:47px;font-size:14px;text-align:center}
-.action:active,.navbtn:active,.choice:active{border-color:var(--gold2);background:#45351d}
-.action.primary{border-color:var(--gold);color:var(--gold2)}
-.side-stack{display:grid;gap:12px;align-content:start}
-.statusline{display:flex;justify-content:space-between;gap:8px;font:12px Arial,sans-serif;color:var(--muted);margin:8px 0}
-.bar{height:8px;background:#342a2a;border-radius:5px;overflow:hidden;margin:5px 0 10px}.bar span{display:block;height:100%;width:100%;background:linear-gradient(90deg,#7c2525,#d85243)}
-nav{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 14px 14px}
-.navbtn{min-height:49px;font:12px Arial,sans-serif;letter-spacing:.5px}
-.navbtn.active{border-color:var(--gold2);color:var(--gold2);box-shadow:inset 0 0 0 1px #9c7738}
-.hidden{display:none!important}.wide{grid-column:1/-1}
-.inventory-list{display:grid;gap:8px}.item{display:flex;align-items:center;gap:10px;border:1px solid #39342a;background:#0b1016;border-radius:6px;padding:10px}.item .ico{font-size:24px;width:32px;text-align:center}.item small{display:block;color:var(--muted);font:12px Arial,sans-serif;margin-top:3px}
-.map-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;max-width:360px;margin:10px auto}.room{aspect-ratio:1;border:1px solid #666;background:#171c24;border-radius:4px}.room.seen{background:#26354a}.room.here{background:#b78a2e;box-shadow:0 0 10px #d9ad5277}.room.locked{background:#542b2b}
-footer{padding:11px 15px;border-top:1px solid #302a20;color:#8d8b86;font:11px Arial,sans-serif;display:flex;justify-content:space-between;gap:8px}
-@media(max-width:650px){body{padding:5px}.app{border-radius:12px}header{padding:11px}.stats{gap:7px}main{grid-template-columns:1fr;padding:9px;gap:9px}.scene{min-height:235px}.side-stack{grid-template-columns:1fr 1fr}.panel{padding:11px}nav{padding:0 9px 9px;gap:5px}.navbtn{padding:9px 4px;font-size:11px}.scene-caption{font-size:13px}}
-</style>
-</head>
-<body>
-<div class="app">
-<header><div><div class="brand">ZYLL</div><div class="subtitle">THE LOST KINGDOM · TOUCH PROTOTYPE</div></div><div class="stats"><div>HEALTH<b id="headHp">24 / 24</b></div><div>GOLD<b id="gold">0</b></div></div></header>
-<main>
-<section class="scene" id="scene"><div class="moon"></div><div class="tower"></div><div class="tower right"></div><div class="gate"></div><div class="torch"></div><div class="torch t2"></div><div class="scene-caption" id="sceneCaption">The Ancient Gate · The road ends at a sealed gate.</div></section>
-<div class="side-stack">
-<section class="panel" id="storyPanel"><h2 id="roomTitle">The Ancient Gate</h2><p id="description">Cold mist drifts between the old stones. A faint orange light flickers beyond the gate. The path behind you has vanished into the dark.</p><div class="actions" id="exploreActions"><button class="action primary" onclick="look()">Look around</button><button class="action" onclick="moveNorth()">Go north</button><button class="action" onclick="openGate()">Open gate</button><button class="action" onclick="encounter()">Enter ruins</button></div><div class="log" id="log">You arrive at the edge of the lost kingdom.</div></section>
-<section class="panel" id="statusPanel"><h2>Adventurer</h2><div class="statusline"><span>Health</span><b id="hpText">24 / 24</b></div><div class="bar"><span id="hpBar"></span></div><div class="statusline"><span>Weapon</span><b>Old sword</b></div><div class="statusline"><span>Location</span><b id="locText">Gate</b></div><div class="statusline"><span>Level</span><b>1</b></div></section>
-<section class="panel hidden" id="combatPanel"><h2>Goblin encounter</h2><p id="enemyText">A goblin leaps from the shadows!</p><div class="statusline"><span>Goblin HP</span><b id="enemyHp">12 / 12</b></div><div class="bar"><span id="enemyBar"></span></div><div class="actions"><button class="action primary" onclick="attack()">Attack</button><button class="action" onclick="defend()">Defend</button><button class="action" onclick="potion()">Use potion</button><button class="action" onclick="runAway()">Run</button></div></section>
-<section class="panel hidden" id="inventoryPanel"><h2>Inventory</h2><div class="inventory-list"><div class="item"><span class="ico">⚔️</span><div>Old sword<small>Equipped · Basic weapon</small></div></div><div class="item"><span class="ico">🧪</span><div>Healing potion <small id="potionCount">1 remaining</small></div></div><div class="item"><span class="ico">🗝️</span><div>Ancient key<small id="keyState">Not found</small></div></div></div></section>
-<section class="panel hidden" id="mapPanel"><h2>Map of the Ruins</h2><p>Explore to reveal more of the lost kingdom.</p><div class="map-grid"><span></span><span class="room seen"></span><span class="room seen"></span><span class="room"></span><span></span><span class="room seen"></span><span class="room here" id="mapHere"></span><span class="room"></span><span class="room locked"></span><span></span><span></span><span class="room seen"></span><span class="room"></span><span class="room"></span><span></span></div><p style="font-size:12px;color:#b5b0a5">Gold = current location · Blue = explored · Red = locked</p></section>
-<section class="panel hidden" id="questPanel"><h2>Quest</h2><p id="questText">Find a way through the Ancient Gate and discover what happened to Zyll.</p><div class="statusline"><span>Objective</span><b id="questState">Find the key</b></div></section>
-</div>
-</main>
-<nav><button class="navbtn active" data-view="storyPanel" onclick="showView('storyPanel',this)">EXPLORE</button><button class="navbtn" data-view="inventoryPanel" onclick="showView('inventoryPanel',this)">INVENTORY</button><button class="navbtn" data-view="mapPanel" onclick="showView('mapPanel',this)">MAP</button><button class="navbtn" data-view="questPanel" onclick="showView('questPanel',this)">QUEST</button></nav>
-<footer><span>Prototype 0.1 · Placeholder artwork</span><span>Touch controls enabled · Single player</span></footer>
-</div>
+:root{--gold:#e0b963;--bright:#ffe3a0;--bg:#080c13;--panel:#121a25;--line:#685335;--txt:#f0e9db;--muted:#bcb3a4}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#202b3b,#070a10 75%);color:var(--txt);font-family:Georgia,serif;padding:9px;touch-action:manipulation}
+button{font:inherit;cursor:pointer;color:var(--txt);touch-action:manipulation}
+.shell{max-width:1000px;margin:auto;border:1px solid #78603a;border-radius:13px;background:#0b1018;box-shadow:0 12px 40px #0009;overflow:hidden}
+header{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 17px;border-bottom:1px solid var(--line)}
+h1{font-size:clamp(20px,3vw,30px);letter-spacing:2px;color:var(--bright);margin:0;text-shadow:0 2px 10px #ad702c77}
+small,.muted{color:var(--muted)}.eyebrow{font:10px Arial,sans-serif;letter-spacing:2px;color:#b8aa8e}
+.stats{display:flex;gap:16px;text-align:center;font:11px Arial,sans-serif}.stats strong{display:block;font-size:17px;color:var(--bright);margin-top:3px}
+.layout{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(230px,.8fr);gap:12px;padding:12px}
+.panel{border:1px solid #56472e;border-radius:8px;background:linear-gradient(155deg,#17202d,#10151e);padding:12px}
+.scene{height:215px;position:relative;overflow:hidden;border-radius:7px;border:1px solid #5b4b35;background:linear-gradient(#17253c,#283043 52%,#111821 52%,#080c12)}
+.scene:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 48%,#d09b5244,transparent 48%),repeating-linear-gradient(90deg,transparent 0 49px,#0002 50px 52px)}
+.moon{position:absolute;right:17%;top:15%;width:44px;height:44px;background:#e5d7ac;border-radius:50%;box-shadow:0 0 40px #b2b5b499}
+.arch{position:absolute;left:29%;bottom:-15px;width:42%;height:82%;border:24px solid #35343a;border-bottom:0;border-radius:48% 48% 0 0;background:linear-gradient(110deg,#07090e,#27222b 50%,#080a10);box-shadow:0 0 0 8px #15191f,0 0 30px #000}
+.path{position:absolute;bottom:-35px;left:10%;width:80%;height:85px;background:#6b553c44;clip-path:polygon(42% 0,58% 0,100% 100%,0 100%)}
+.rune{position:absolute;left:47%;top:44%;color:#f1c46e;font-size:32px;text-shadow:0 0 18px #ffb83e}
+.sceneLabel{position:absolute;left:10px;bottom:9px;padding:5px 9px;background:#060a11cc;border:1px solid #665034;color:var(--bright);font-size:13px}
+h2{font-size:19px;color:var(--gold);margin:11px 0 6px}.description{line-height:1.5;min-height:64px;font-size:15px}
+.log{font-size:13px;color:#e8cf9d;min-height:38px;border-left:3px solid #9e783a;padding:7px 10px;background:#0b111b;margin:10px 0}
+h3{font:12px Arial,sans-serif;letter-spacing:1.5px;color:var(--gold);margin:12px 0 8px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.btn{background:linear-gradient(#34404d,#202b38);border:1px solid #8a7046;border-radius:6px;padding:11px 8px;min-height:42px;font-size:14px}
+.btn:active{background:#66512e}.btn:disabled{opacity:.32;cursor:default}.btn.gold{background:linear-gradient(#70532b,#47341f);color:#fff1d0}
+.nav{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;max-width:260px;margin:0 auto}.nav .btn{padding:8px 2px;min-height:38px}.nav .empty{visibility:hidden}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}.tabs .btn{font-size:12px;padding:9px 2px;min-height:36px}.tabs .active{background:#654c2c}
+.bar{height:10px;background:#070b10;border:1px solid #705e45;border-radius:20px;overflow:hidden;margin:7px 0 12px}.fill{height:100%;background:linear-gradient(90deg,#a43e3b,#e58c62);width:100%}
+.info{font:13px Arial,sans-serif;line-height:1.8}.info b{color:#ffe0a0}
+.map{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;max-width:290px}.tile{min-height:42px;background:#101722;border:1px solid #343b42;border-radius:4px;display:flex;align-items:center;justify-content:center;font:11px Arial,sans-serif;text-align:center;padding:2px}.tile.seen{background:#384334;border-color:#7a7449}.tile.here{background:#896232;color:#fff;border-color:#e5c87c}
+.items{font-size:13px;line-height:1.9}.note{font:11px Arial,sans-serif;color:#a9a18f;line-height:1.4}
+footer{padding:8px 15px;border-top:1px solid #4e422f;font:11px Arial,sans-serif;color:#aaa18f;display:flex;justify-content:space-between;gap:8px}
+@media(max-width:680px){.layout{grid-template-columns:1fr}.scene{height:170px}.stats{gap:8px}header{padding:10px}.panel{padding:10px}}
+</style></head><body><div class="shell">
+<header><div><h1>FORGE TO RISE</h1><div class="eyebrow">THE ASHEN KEEP · CHAPTER I</div></div><div class="stats"><div>HEALTH<strong id="hpTop">30/30</strong></div><div>GOLD<strong id="goldTop">0</strong></div><div>LEVEL<strong id="levelTop">1</strong></div></div></header>
+<div class="layout"><section><div class="scene"><div class="moon"></div><div class="arch"></div><div class="path"></div><div class="rune">✦</div><div class="sceneLabel" id="sceneLabel">Ashen Approach</div></div>
+<div class="panel" style="margin-top:10px"><h2 id="roomTitle"></h2><div class="description" id="desc"></div><div class="log" id="log" aria-live="polite"></div><div id="explore"><h3>TRAVEL</h3><div class="nav"><span class="empty"></span><button class="btn" onclick="move('n')">▲ North</button><span class="empty"></span><button class="btn" onclick="move('w')">◀ West</button><button class="btn" onclick="searchRoom()">Search</button><button class="btn" onclick="move('e')">East ▶</button><span class="empty"></span><button class="btn" onclick="move('s')">▼ South</button><span class="empty"></span></div><h3>ROOM ACTIONS</h3><div class="grid" id="actions"></div></div>
+<div id="battle" hidden><h3 id="enemyName"></h3><div class="bar"><div class="fill" id="enemyBar"></div></div><div class="grid"><button class="btn gold" onclick="fight('attack')">Attack</button><button class="btn" onclick="fight('defend')">Defend</button><button class="btn" onclick="fight('potion')">Use Potion</button><button class="btn" onclick="fight('run')">Run</button></div></div></div></section>
+<aside><div class="panel"><div class="tabs"><button class="btn active" id="tabStatus" onclick="tab('status')">Status</button><button class="btn" id="tabInventory" onclick="tab('inventory')">Inventory</button><button class="btn" id="tabMap" onclick="tab('map')">Map</button></div><div id="side" style="min-height:220px"></div></div><div class="panel" style="margin-top:10px"><h3>ADVENTURE</h3><div class="grid"><button class="btn" onclick="save()">Save</button><button class="btn" onclick="load()">Load</button><button class="btn" onclick="resetGame()">New Game</button><button class="btn" onclick="tab('map')">Dungeon Map</button></div><p class="note">Progress is saved in this browser's local storage, when available. Second Life media storage may be cleared independently of the prim.</p></div></aside></div>
+<footer><span>Forge to Rise · Original dungeon prototype</span><span id="progress">0 / 10 rooms discovered</span></footer></div>
 <script>
 'use strict';
+const rooms={
+approach:{name:"Ashen Approach",x:1,y:3,desc:"Cold wind sweeps across the abandoned causeway. The keep's iron gate stands to the north.",exits:{n:"gate"},actions:[["Inspect the gate","gateHint"]]},
+gate:{name:"Iron Gate",x:1,y:2,desc:"A weathered gate bars the way into the fortress. A narrow keyhole glimmers beneath the rust.",exits:{s:"approach",n:"hall"},lock:"gate",actions:[["Examine lock","gateHint"]]},
+hall:{name:"Inner Hall",x:1,y:1,desc:"Torn banners hang above a long stone hall. Footprints disappear into the shadows.",exits:{s:"gate",w:"armory",e:"gallery",n:"court"},enemy:"sentinel"},
+armory:{name:"Forgotten Armory",x:0,y:1,desc:"Broken shields and rusted blades lie beneath a fallen weapon rack.",exits:{e:"hall",s:"library"},treasure:"blade"},
+gallery:{name:"Hall of Embers",x:2,y:1,desc:"Charcoal portraits line the walls. A faint red glow spills from the eastern doorway.",exits:{w:"hall",e:"forge",s:"library"},enemy:"wisp"},
+court:{name:"Fallen Courtyard",x:1,y:0,desc:"An open courtyard lies beneath a starless sky. The old watchtower rises to the east.",exits:{s:"hall",e:"tower"},treasure:"potion"},
+tower:{name:"Watchtower",x:2,y:0,desc:"From the broken battlements, you can see smoke rising beyond the valley.",exits:{w:"court",s:"forge"},treasure:"crest"},
+forge:{name:"Dormant Forge",x:3,y:1,desc:"An ancient anvil stands beneath a cold chimney. The furnace waits for a spark.",exits:{w:"gallery",n:"tower",s:"sanctum"},lock:"forge",enemy:"guardian",actions:[["Awaken the forge","ignite"]]},
+library:{name:"Dustbound Library",x:2,y:2,desc:"Rotting books cover the floor. A silver inscription describes a crest and a forgotten flame.",exits:{n:"gallery",w:"armory"},treasure:"rune"},
+sanctum:{name:"Ember Sanctum",x:3,y:2,desc:"A stone dais cradles the Heart of Embers, dormant for centuries.",exits:{n:"forge"},actions:[["Restore the Heart","finish"]]}
+};
+const foes={sentinel:{name:"Hollow Sentinel",hp:17,atk:5,gold:15},wisp:{name:"Ash Wisp",hp:13,atk:4,gold:12},guardian:{name:"Forge Guardian",hp:26,atk:7,gold:30}};
+function initial(){return {room:"approach",hp:30,maxHp:30,gold:0,level:1,items:["Old Sword","Healing Potion"],flags:{},visited:["approach"],defeated:{},searched:{},combat:null,won:false,log:"Find a way into the Ashen Keep. Search your surroundings for supplies."}}
+let s=initial(),view="status";
 const $=id=>document.getElementById(id);
-let hp=24,maxHp=24,gold=0,potions=1,keyFound=false,enemyHp=12,inCombat=false,defending=false,room=0;
-function log(s){$('log').textContent=s}
-function update(){ $('headHp').textContent=hp+' / '+maxHp;$('hpText').textContent=hp+' / '+maxHp;$('hpBar').style.width=(hp/maxHp*100)+'%';$('gold').textContent=gold;$('potionCount').textContent=potions+' remaining';$('keyState').textContent=keyFound?'Found':'Not found';$('enemyHp').textContent=Math.max(0,enemyHp)+' / 12';$('enemyBar').style.width=(Math.max(0,enemyHp)/12*100)+'%';$('locText').textContent=room===0?'Gate':room===1?'Outer Ruins':room===2?'Inner Hall':'Gate';$('questState').textContent=keyFound?'Open the ancient gate':'Find the key';}
-function showView(id,btn){['storyPanel','inventoryPanel','mapPanel','questPanel','combatPanel'].forEach(x=>$(x).classList.add('hidden'));$(id).classList.remove('hidden');document.querySelectorAll('.navbtn').forEach(x=>x.classList.remove('active'));if(btn)btn.classList.add('active');}
-function look(){log('You notice a narrow path to the east and a key-shaped hollow in the gate.');keyFound=true;$('keyState').textContent='Found';$('questState').textContent='Open the ancient gate';}
-function moveNorth(){room=1;$('roomTitle').textContent='Outer Ruins';$('sceneCaption').textContent='Outer Ruins · Broken pillars line a narrow path.';$('description').textContent='The stones are cracked with age. Something moves behind a fallen pillar. You can return to the gate or enter the inner hall.';$('locText').textContent='Outer Ruins';log('You step carefully into the outer ruins.');update();}
-function openGate(){if(!keyFound){log('The gate will not move. You need to search for a key.');return;}room=2;$('roomTitle').textContent='The Inner Hall';$('sceneCaption').textContent='Inner Hall · A warm light flickers beyond the arch.';$('description').textContent='The gate groans open. Beyond it, a long hall descends beneath the ruined castle.';$('locText').textContent='Inner Hall';gold+=10;log('The ancient key turns. You find 10 gold coins beyond the gate.');update();}
-function encounter(){showView('combatPanel',null);inCombat=true;enemyHp=12;$('enemyText').textContent='A goblin leaps from the shadows!';log('Combat begins. Choose an action.');update();}
-function enemyTurn(){if(!inCombat)return;let damage=defending?Math.floor(Math.random()*3):2+Math.floor(Math.random()*4);defending=false;hp=Math.max(0,hp-damage);log('The goblin strikes for '+damage+' damage.');if(hp===0){inCombat=false;$('enemyText').textContent='You have fallen. The prototype can be restarted by refreshing.';}update();}
-function attack(){if(!inCombat)return;let damage=3+Math.floor(Math.random()*5);enemyHp=Math.max(0,enemyHp-damage);if(enemyHp===0){inCombat=false;gold+=15;$('enemyText').textContent='Goblin defeated! You find 15 gold coins.';log('Victory! You collect 15 gold.');showView('storyPanel',document.querySelector('[data-view="storyPanel"]'));}else{log('You strike the goblin for '+damage+' damage.');enemyTurn();}update();}
-function defend(){if(!inCombat)return;defending=true;log('You brace for the attack.');enemyTurn();update();}
-function potion(){if(!inCombat)return;if(potions<1){log('No healing potions remain.');return;}if(hp===maxHp){log('Your health is already full.');return;}potions--;hp=Math.min(maxHp,hp+10);log('You use a healing potion and recover 10 health.');enemyTurn();update();}
-function runAway(){if(!inCombat)return;inCombat=false;showView('storyPanel',document.querySelector('[data-view="storyPanel"]'));log('You escape back into the ruins.');}
-update();
-</script>
-</body>
-</html>
+function say(t){s.log=t;render()}
+function has(t){return s.items.includes(t)}
+function add(t){if(!has(t))s.items.push(t)}
+function room(){return rooms[s.room]}
+function save(silent=false){try{localStorage.setItem("forge-to-rise-v1",JSON.stringify(s));if(!silent)say("Adventure saved on this device.")}catch(e){if(!silent)say("This browser did not allow local saving.")}}
+function load(){try{const x=JSON.parse(localStorage.getItem("forge-to-rise-v1"));if(!x||!rooms[x.room]||!Array.isArray(x.items))return say("No saved adventure found.");s=x;s.combat=null;say("Saved adventure restored.")}catch(e){say("Saved adventure could not be read.")}}
+function resetGame(){if(!confirm("Start a new adventure? Unsaved progress will be lost."))return;s=initial();save(true);say("A new journey begins at the Ashen Approach.")}
+function tab(v){view=v;render()}
+function move(dir){
+if(s.combat)return;
+let dest=room().exits[dir];if(!dest)return say("No passage leads that way.");
+if(dest==="hall"&&!s.flags.gate)return say("The iron gate is locked. Search the approach for a hidden spare key.");
+if(dest==="sanctum"&&!s.flags.forge)return say("The forge's sealed passage requires the Ember Rune and the Watcher's Crest.");
+s.room=dest;if(!s.visited.includes(dest))s.visited.push(dest);
+if(rooms[dest].enemy&&!s.defeated[dest]){let e=foes[rooms[dest].enemy];s.combat={key:rooms[dest].enemy,hp:e.hp};s.log="A "+e.name+" blocks your path!";}else s.log="You enter the "+room().name+".";
+save(true);render();
+}
+function searchRoom(){
+if(s.combat)return;
+if(s.searched[s.room])return say("You've already searched this area thoroughly.");
+s.searched[s.room]=true;let t=room().treasure;
+if(s.room==="approach"){add("Iron Key");say("Beneath a loose paving stone, you find a spare Iron Key.");}
+else if(t==="key"){add("Iron Key");say("You recover an Iron Key from the flooded crate.");}
+else if(t==="blade"){add("Forged Blade");say("You discover a Forged Blade. Your attacks will strike harder.");}
+else if(t==="potion"){add("Healing Potion");s.gold+=8;say("You find a Healing Potion and 8 gold.");}
+else if(t==="crest"){add("Watcher's Crest");say("You recover the Watcher's Crest from the battlements.");}
+else if(t==="rune"){add("Ember Rune");say("You decipher the inscription and claim the Ember Rune.");}
+else {s.gold+=3;say("You search the room and find 3 gold.");}
+save(true);
+}
+function action(key){
+if(s.combat)return;
+if(key==="gateHint")return say(has("Iron Key")?"The Iron Key fits the lock. Open the gate from here.":"A spare key may be hidden near the approach. Search the stones.");
+if(key==="open"){if(!has("Iron Key"))return say("The gate will not move without an Iron Key.");s.flags.gate=true;say("The iron gate groans open. The Inner Hall lies north.");}
+if(key==="ignite"){if(!has("Ember Rune")||!has("Watcher's Crest"))return say("The furnace needs both the Ember Rune and Watcher's Crest.");s.flags.forge=true;say("The ancient furnace flares to life, revealing the passage south.");}
+if(key==="finish"){if(!s.flags.forge)return say("The Heart remains cold. Restore the forge first.");s.won=true;s.gold+=100;say("VICTORY! The Heart of Embers blazes again. The keep awakens. You earn 100 gold. Chapter I complete!");}
+save(true);
+}
+function fight(act){
+if(!s.combat)return;let f=foes[s.combat.key],msg="",def=false;
+if(act==="run"){if(s.room==="hall")s.room="gate";else if(s.room==="gallery")s.room="hall";else s.room="gallery";s.combat=null;return say("You retreat to safety. The enemy still guards the room.");}
+if(act==="potion"){let i=s.items.indexOf("Healing Potion");if(i<0)return say("You have no healing potions.");s.items.splice(i,1);s.hp=Math.min(s.maxHp,s.hp+14);msg="You recover 14 health (up to maximum). ";}
+if(act==="attack"){let dmg=5+Math.floor(Math.random()*5)+(has("Forged Blade")?4:0);s.combat.hp-=dmg;msg="You deal "+dmg+" damage. ";}
+if(act==="defend"){def=true;msg="You brace for the next strike. ";}
+if(s.combat.hp<=0){s.defeated[s.room]=true;s.gold+=f.gold;s.combat=null;msg+="Victory! You collect "+f.gold+" gold.";if(Object.keys(s.defeated).length===3){s.level=2;s.maxHp=36;s.hp=Math.min(s.maxHp,s.hp+6);msg+=" You reach level 2!";}save(true);return say(msg);}
+let hurt=Math.max(1,f.atk-2+Math.floor(Math.random()*4)-(def?4:0));s.hp-=hurt;msg+=f.name+" hits you for "+hurt+".";
+if(s.hp<=0){s.hp=s.maxHp;s.gold=Math.max(0,s.gold-10);s.room="approach";s.combat=null;msg+=" You fall and awaken at the approach, losing up to 10 gold.";}
+save(true);say(msg);
+}
+function render(){
+$("hpTop").textContent=s.hp+"/"+s.maxHp;$("goldTop").textContent=s.gold;$("levelTop").textContent=s.level;
+$("roomTitle").textContent=room().name;$("sceneLabel").textContent=room().name;$("desc").textContent=room().desc;$("log").textContent=s.log;
+$("explore").hidden=!!s.combat;$("battle").hidden=!s.combat;
+document.querySelectorAll(".nav button").forEach(b=>{let d=b.textContent.includes("North")?"n":b.textContent.includes("South")?"s":b.textContent.includes("East")?"e":b.textContent.includes("West")?"w":null;if(d)b.disabled=!room().exits[d]});
+let actions=[...(room().actions||[])];if(s.room==="gate"&&!s.flags.gate)actions.push(["Open Gate","open"]);if(s.room==="gate"&&s.flags.gate)actions.push(["Gate Open","gateHint"]);
+$("actions").innerHTML="";if(!actions.length){$("actions").textContent="Search the room or choose a direction."}else actions.forEach(([label,key])=>{let b=document.createElement("button");b.className="btn gold";b.textContent=label;b.onclick=()=>action(key);$("actions").appendChild(b)});
+if(s.combat){let f=foes[s.combat.key];$("enemyName").textContent=f.name+" · "+Math.max(0,s.combat.hp)+"/"+f.hp+" HP";$("enemyBar").style.width=Math.max(0,100*s.combat.hp/f.hp)+"%"}
+for(let v of ["status","inventory","map"])$("tab"+v[0].toUpperCase()+v.slice(1)).classList.toggle("active",view===v);
+let side=$("side");side.innerHTML="";
+if(view==="status"){side.innerHTML='<h3>ADVENTURER</h3><div class="info">Weapon: <b>'+(has("Forged Blade")?"Forged Blade":"Old Sword")+'</b><br>Location: <b>'+room().name+'</b><br>Level: <b>'+s.level+'</b><br>Rooms explored: <b>'+s.visited.length+'/10</b><br>Enemies defeated: <b>'+Object.keys(s.defeated).length+'/3</b></div><h3>HEALTH</h3><div class="bar"><div class="fill" style="width:'+(s.hp/s.maxHp*100)+'%"></div></div><p class="note">Quest: '+(s.won?"Chapter I complete — the Heart is restored.":"Find the Ember Rune and Watcher's Crest. Awaken the forge and restore the Heart of Embers.")+'</p>'}
+if(view==="inventory"){let h=document.createElement("div");h.className="items";h.innerHTML="<h3>YOUR BELONGINGS</h3>";for(let item of s.items){let d=document.createElement("div");d.textContent="◆ "+item;h.appendChild(d)}if(!s.items.length)h.append("Your pack is empty.");side.appendChild(h)}
+if(view==="map"){side.innerHTML="<h3>DISCOVERED ROOMS</h3>";let m=document.createElement("div");m.className="map";for(let y=0;y<4;y++)for(let x=0;x<4;x++){let id=Object.keys(rooms).find(k=>rooms[k].x===x&&rooms[k].y===y);let t=document.createElement("div");t.className="tile"+(id&&s.visited.includes(id)?" seen":"")+(id===s.room?" here":"");t.textContent=id&&s.visited.includes(id)?(id===s.room?"◆ ":"")+rooms[id].name:"·";m.appendChild(t)}side.appendChild(m);let p=document.createElement("p");p.className="note";p.textContent="Only visited rooms are revealed. ◆ marks your location.";side.appendChild(p)}
+$("progress").textContent=s.visited.length+" / 10 rooms discovered";
+}
+try{let stored=JSON.parse(localStorage.getItem("forge-to-rise-v1"));if(stored&&rooms[stored.room]&&Array.isArray(stored.items)){s=stored;s.combat=null;s.log="Welcome back to Forge to Rise. Your adventure was restored."}}catch(e){}
+render();
+</script></body></html>
