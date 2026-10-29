@@ -25,7 +25,7 @@ h3{font:12px Arial,sans-serif;letter-spacing:1.5px;color:var(--gold);margin:12px
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
 .btn{background:linear-gradient(#34404d,#202b38);border:1px solid #8a7046;border-radius:6px;padding:11px 8px;min-height:42px;font-size:14px}
 .btn:active{background:#66512e}.btn:disabled{opacity:.32;cursor:default}.btn.gold{background:linear-gradient(#70532b,#47341f);color:#fff1d0}
-.nav{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;max-width:260px;margin:0 auto}.nav .btn{padding:8px 2px;min-height:38px}.nav .empty{visibility:hidden}
+.nav{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;max-width:390px;margin:0 auto}.nav .btn{padding:13px 5px;min-height:58px;font-size:16px;font-weight:bold}.nav .empty{visibility:hidden}
 .tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}.tabs .btn{font-size:12px;padding:9px 2px;min-height:36px}.tabs .active{background:#654c2c}
 .bar{height:10px;background:#070b10;border:1px solid #705e45;border-radius:20px;overflow:hidden;margin:7px 0 12px}.fill{height:100%;background:linear-gradient(90deg,#a43e3b,#e58c62);width:100%}
 .info{font:13px Arial,sans-serif;line-height:1.8}.info b{color:#ffe0a0}
@@ -39,19 +39,20 @@ footer{padding:8px 15px;border-top:1px solid #4e422f;font:11px Arial,sans-serif;
 <div class="panel" style="margin-top:10px"><h2 id="roomTitle"></h2><div class="description" id="desc"></div><div class="log" id="log" aria-live="polite"></div><div id="explore"><h3>TRAVEL</h3><div class="nav"><span class="empty"></span><button class="btn" onclick="move('n')">▲ North</button><span class="empty"></span><button class="btn" onclick="move('w')">◀ West</button><button class="btn" onclick="searchRoom()">Search</button><button class="btn" onclick="move('e')">East ▶</button><span class="empty"></span><button class="btn" onclick="move('s')">▼ South</button><span class="empty"></span></div><h3>ROOM ACTIONS</h3><div class="grid" id="actions"></div></div>
 <div id="battle" hidden><h3 id="enemyName"></h3><div class="bar"><div class="fill" id="enemyBar"></div></div><div class="grid"><button class="btn gold" onclick="fight('attack')">Attack</button><button class="btn" onclick="fight('defend')">Defend</button><button class="btn" onclick="fight('potion')">Use Potion</button><button class="btn" onclick="fight('run')">Run</button></div></div></div></section>
 <aside><div class="panel"><div class="tabs"><button class="btn active" id="tabStatus" onclick="tab('status')">Status</button><button class="btn" id="tabInventory" onclick="tab('inventory')">Inventory</button><button class="btn" id="tabMap" onclick="tab('map')">Map</button></div><div id="side" style="min-height:220px"></div></div><div class="panel" style="margin-top:10px"><h3>ADVENTURE</h3><div class="grid"><button class="btn" onclick="save()">Save</button><button class="btn" onclick="load()">Load</button><button class="btn" onclick="resetGame()">New Game</button><button class="btn" onclick="tab('map')">Dungeon Map</button></div><p class="note">Progress is saved in this browser's local storage, when available. Second Life media storage may be cleared independently of the prim.</p></div></aside></div>
-<footer><span>Forge to Rise · Original dungeon prototype</span><span id="progress">0 / 10 rooms discovered</span></footer></div>
+<footer><span>Forge to Rise · Dungeon update 0.2</span><span id="progress">0 / 11 rooms discovered</span></footer></div>
 <script>
 'use strict';
 const rooms={
 approach:{name:"Ashen Approach",x:1,y:3,desc:"Cold wind sweeps across the abandoned causeway. The keep's iron gate stands to the north.",exits:{n:"gate"},actions:[["Inspect the gate","gateHint"]]},
 gate:{name:"Iron Gate",x:1,y:2,desc:"A weathered gate bars the way into the fortress. A narrow keyhole glimmers beneath the rust.",exits:{s:"approach",n:"hall"},lock:"gate",actions:[["Examine lock","gateHint"]]},
 hall:{name:"Inner Hall",x:1,y:1,desc:"Torn banners hang above a long stone hall. Footprints disappear into the shadows.",exits:{s:"gate",w:"armory",e:"gallery",n:"court"},enemy:"sentinel"},
-armory:{name:"Forgotten Armory",x:0,y:1,desc:"Broken shields and rusted blades lie beneath a fallen weapon rack.",exits:{e:"hall",s:"library"},treasure:"blade"},
+armory:{name:"Forgotten Armory",x:0,y:1,desc:"Broken shields and rusted blades lie beneath a fallen weapon rack.",exits:{e:"hall",s:"cellar"},treasure:"blade"},
 gallery:{name:"Hall of Embers",x:2,y:1,desc:"Charcoal portraits line the walls. A faint red glow spills from the eastern doorway.",exits:{w:"hall",e:"forge",s:"library"},enemy:"wisp"},
 court:{name:"Fallen Courtyard",x:1,y:0,desc:"An open courtyard lies beneath a starless sky. The old watchtower rises to the east.",exits:{s:"hall",e:"tower"},treasure:"potion"},
 tower:{name:"Watchtower",x:2,y:0,desc:"From the broken battlements, you can see smoke rising beyond the valley.",exits:{w:"court",s:"forge"},treasure:"crest"},
 forge:{name:"Dormant Forge",x:3,y:1,desc:"An ancient anvil stands beneath a cold chimney. The furnace waits for a spark.",exits:{w:"gallery",n:"tower",s:"sanctum"},lock:"forge",enemy:"guardian",actions:[["Awaken the forge","ignite"]]},
-library:{name:"Dustbound Library",x:2,y:2,desc:"Rotting books cover the floor. A silver inscription describes a crest and a forgotten flame.",exits:{n:"gallery",w:"armory"},treasure:"rune"},
+library:{name:"Dustbound Library",x:2,y:2,desc:"Rotting books cover the floor. A silver inscription describes a crest and a forgotten flame.",exits:{n:"gallery",w:"cellar"},treasure:"rune"},
+cellar:{name:"Flooded Cellar",x:0,y:2,desc:"Black water covers the cellar floor. Something glints beneath a collapsed crate.",exits:{n:"armory",e:"library"},treasure:"key"},
 sanctum:{name:"Ember Sanctum",x:3,y:2,desc:"A stone dais cradles the Heart of Embers, dormant for centuries.",exits:{n:"forge"},actions:[["Restore the Heart","finish"]]}
 };
 const foes={sentinel:{name:"Hollow Sentinel",hp:17,atk:5,gold:15},wisp:{name:"Ash Wisp",hp:13,atk:4,gold:12},guardian:{name:"Forge Guardian",hp:26,atk:7,gold:30}};
@@ -71,8 +72,8 @@ if(s.combat)return;
 let dest=room().exits[dir];if(!dest)return say("No passage leads that way.");
 if(dest==="hall"&&!s.flags.gate)return say("The iron gate is locked. Search the approach for a hidden spare key.");
 if(dest==="sanctum"&&!s.flags.forge)return say("The forge's sealed passage requires the Ember Rune and the Watcher's Crest.");
-s.room=dest;if(!s.visited.includes(dest))s.visited.push(dest);
-if(rooms[dest].enemy&&!s.defeated[dest]){let e=foes[rooms[dest].enemy];s.combat={key:rooms[dest].enemy,hp:e.hp};s.log="A "+e.name+" blocks your path!";}else s.log="You enter the "+room().name+".";
+const origin=room().name;const direction={n:"North",s:"South",e:"East",w:"West"}[dir];s.room=dest;if(!s.visited.includes(dest))s.visited.push(dest);
+if(rooms[dest].enemy&&!s.defeated[dest]){let e=foes[rooms[dest].enemy];s.combat={key:rooms[dest].enemy,hp:e.hp};s.log="Moved "+direction+" from "+origin+" to "+room().name+". A "+e.name+" blocks your path!";}else s.log="Moved "+direction+" from "+origin+" to "+room().name+".";
 save(true);render();
 }
 function searchRoom(){
@@ -117,10 +118,10 @@ $("actions").innerHTML="";if(!actions.length){$("actions").textContent="Search t
 if(s.combat){let f=foes[s.combat.key];$("enemyName").textContent=f.name+" · "+Math.max(0,s.combat.hp)+"/"+f.hp+" HP";$("enemyBar").style.width=Math.max(0,100*s.combat.hp/f.hp)+"%"}
 for(let v of ["status","inventory","map"])$("tab"+v[0].toUpperCase()+v.slice(1)).classList.toggle("active",view===v);
 let side=$("side");side.innerHTML="";
-if(view==="status"){side.innerHTML='<h3>ADVENTURER</h3><div class="info">Weapon: <b>'+(has("Forged Blade")?"Forged Blade":"Old Sword")+'</b><br>Location: <b>'+room().name+'</b><br>Level: <b>'+s.level+'</b><br>Rooms explored: <b>'+s.visited.length+'/10</b><br>Enemies defeated: <b>'+Object.keys(s.defeated).length+'/3</b></div><h3>HEALTH</h3><div class="bar"><div class="fill" style="width:'+(s.hp/s.maxHp*100)+'%"></div></div><p class="note">Quest: '+(s.won?"Chapter I complete — the Heart is restored.":"Find the Ember Rune and Watcher's Crest. Awaken the forge and restore the Heart of Embers.")+'</p>'}
+if(view==="status"){side.innerHTML='<h3>ADVENTURER</h3><div class="info">Weapon: <b>'+(has("Forged Blade")?"Forged Blade":"Old Sword")+'</b><br>Location: <b>'+room().name+'</b><br>Level: <b>'+s.level+'</b><br>Rooms explored: <b>'+s.visited.length+'/11</b><br>Enemies defeated: <b>'+Object.keys(s.defeated).length+'/3</b></div><h3>HEALTH</h3><div class="bar"><div class="fill" style="width:'+(s.hp/s.maxHp*100)+'%"></div></div><p class="note">Quest: '+(s.won?"Chapter I complete — the Heart is restored.":"Find the Ember Rune and Watcher's Crest. Awaken the forge and restore the Heart of Embers.")+'</p>'}
 if(view==="inventory"){let h=document.createElement("div");h.className="items";h.innerHTML="<h3>YOUR BELONGINGS</h3>";for(let item of s.items){let d=document.createElement("div");d.textContent="◆ "+item;h.appendChild(d)}if(!s.items.length)h.append("Your pack is empty.");side.appendChild(h)}
 if(view==="map"){side.innerHTML="<h3>DISCOVERED ROOMS</h3>";let m=document.createElement("div");m.className="map";for(let y=0;y<4;y++)for(let x=0;x<4;x++){let id=Object.keys(rooms).find(k=>rooms[k].x===x&&rooms[k].y===y);let t=document.createElement("div");t.className="tile"+(id&&s.visited.includes(id)?" seen":"")+(id===s.room?" here":"");t.textContent=id&&s.visited.includes(id)?(id===s.room?"◆ ":"")+rooms[id].name:"·";m.appendChild(t)}side.appendChild(m);let p=document.createElement("p");p.className="note";p.textContent="Only visited rooms are revealed. ◆ marks your location.";side.appendChild(p)}
-$("progress").textContent=s.visited.length+" / 10 rooms discovered";
+$("progress").textContent=s.visited.length+" / 11 rooms discovered";
 }
 try{let stored=JSON.parse(localStorage.getItem("forge-to-rise-v1"));if(stored&&rooms[stored.room]&&Array.isArray(stored.items)){s=stored;s.combat=null;s.log="Welcome back to Forge to Rise. Your adventure was restored."}}catch(e){}
 render();
