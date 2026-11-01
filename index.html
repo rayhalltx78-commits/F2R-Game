@@ -35,3 +35,36 @@ $('closeWindow').onclick=()=>{minimized=true;render()};$('minWindow').onclick=()
 load();lastTick=unix();render();if(state)$('saveStatus').textContent='Last saved · '+new Date(state.savedAt*1000).toLocaleTimeString();function clock(){ $('clock').textContent=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});$('trayClock').textContent=$('clock').textContent}clock();setInterval(clock,10000);setInterval(()=>{if(document.hidden)lastTick=unix();else tick()},1000);setInterval(()=>{if(unsaved)save()},10000);document.addEventListener('visibilitychange',()=>{lastTick=unix();if(document.hidden&&unsaved)save()});window.addEventListener('pagehide',()=>{if(unsaved)save()});
 })();
 </script></body></html>
+
+/* ============================================================
+   BUSINESS TYCOON — DESKTOP PROPORTION FIX v0.4.1
+   Overrides v0.4.0 without changing game logic.
+   ============================================================ */
+:root{--top-height:32px;--task-height:48px;--icon-box:48px}
+html,body{min-width:0;min-height:0}
+.desktop{height:100vh;height:100dvh;min-height:0}
+.desktop-top{height:var(--top-height);padding:0 14px;font-size:12px;letter-spacing:0}
+.top-right{font-size:11px;gap:12px}
+.workspace{inset:var(--top-height) 0 var(--task-height)}
+.wallpaper-brand{left:5%;right:auto;top:7%;gap:4px}
+.wallpaper-brand .eyebrow{font-size:11px;letter-spacing:2px}
+.wallpaper-brand strong{font-size:clamp(26px,3.3vh,38px);line-height:1.08;letter-spacing:-.5px}
+.wallpaper-brand>span:last-child{font-size:12px}
+.desktop-icons{left:5%;top:34%;width:max-content;max-width:90%;max-height:64%;grid-template-columns:repeat(3,92px);grid-auto-rows:82px;gap:9px 12px;overflow-y:auto;overflow-x:hidden}
+.desktop-icon{width:92px;height:82px;min-height:0;padding:5px 3px;gap:6px;justify-content:flex-start;font-size:11px;line-height:1.2;overflow:visible}
+.desktop-icon .symbol{flex:none;display:grid;place-items:center;width:var(--icon-box);height:var(--icon-box);aspect-ratio:1/1;border-radius:11px;font-size:25px;line-height:1}
+.desktop-icon>span:last-child{display:block;max-width:100%;overflow-wrap:normal;white-space:normal}
+.taskbar{height:var(--task-height);padding:5px 12px;gap:8px}
+.taskbar button{height:34px;padding:0 13px;font-size:12px;border-radius:8px}
+.taskbar small{font-size:11px}
+.tray-clock{font-size:11px}
+.start-menu{bottom:calc(var(--task-height) + 5px)}
+.window{inset:8px;border-radius:11px}
+.window-titlebar{height:39px}
+.window-content{padding:16px}
+.stats{grid-template-columns:repeat(4,minmax(0,1fr))}
+.stat{font-size:clamp(16px,2.5vh,23px)}
+h1{font-size:clamp(20px,3vh,28px)}
+@media (max-width:700px){.desktop-icons{grid-template-columns:repeat(3,82px);grid-auto-rows:77px;gap:6px}.desktop-icon{width:82px;height:77px;font-size:10px}.desktop-icon .symbol{--icon-box:43px;font-size:22px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.grid2{grid-template-columns:1fr}}
+@media (max-height:500px){:root{--top-height:28px;--task-height:41px;--icon-box:36px}.wallpaper-brand{top:4%}.wallpaper-brand strong{font-size:24px}.desktop-icons{top:34%;grid-template-columns:repeat(3,80px);grid-auto-rows:64px;gap:3px 7px;max-height:65%}.desktop-icon{width:80px;height:64px;gap:3px;padding:2px;font-size:10px}.desktop-icon .symbol{font-size:19px;border-radius:9px}.taskbar button{height:30px}.window-titlebar{height:34px}.window-content{padding:10px}}
+@media (max-width:380px){.desktop-icons{grid-template-columns:repeat(2,82px)}}
