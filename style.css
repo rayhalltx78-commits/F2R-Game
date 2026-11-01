@@ -24,3 +24,30 @@
 @media(max-width:950px){.desktop-icons{width:146px;grid-template-columns:repeat(2,65px);grid-auto-rows:70px;gap:4px}.desktop-icon{width:65px;min-height:65px;max-height:70px;font-size:9px}.desktop-icon .symbol{font-size:23px}.window{left:19%;width:79%;top:3%;height:94%}}
 @media(max-width:650px){.desktop-icons{width:75px;grid-template-columns:65px;grid-auto-rows:62px}.window{left:77px;width:calc(100% - 82px);top:2%;height:96%}.wallpaper-brand{display:none}}
 @media(max-height:540px){.start-menu{bottom:37px}.desktop-icons{grid-auto-rows:58px}.desktop-icon{min-height:55px;max-height:58px}.window{top:2%;height:96%}}
+
+/* v0.3.1 — Second Life landscape MOAP desktop sizing correction */
+:root{font-size:16px}
+.desktop-top{flex-basis:36px;height:36px;padding:0 16px}
+.desktop-top strong{font-size:14px}.top-right{font-size:12px}
+.taskbar{height:43px;gap:9px}.taskbar button{font-size:13px;padding:6px 13px}
+.desktop-icons{top:12px;left:14px;bottom:10px;width:190px;grid-template-columns:repeat(2,88px);grid-auto-rows:92px;gap:6px}
+.desktop-icon{width:88px;min-height:88px;max-height:92px;font-size:12px;gap:6px;padding:9px 3px;overflow:visible}
+.desktop-icon .symbol{font-size:32px}
+.window:not(.maximized){top:6%;left:21%;width:76%;height:86%}
+.window-titlebar{height:42px;padding:0 14px}.window-title{font-size:15px}.window-hint{font-size:12px}
+.window-content{padding:20px 24px;font-size:15px}
+.register-wrap{width:min(100%,680px);max-width:680px;min-height:100%;margin:0 auto;display:flex;align-items:center;justify-content:center;padding:12px 0}
+.register-wrap>.card{width:100%;padding:26px 30px;background:#243449;border-color:#4b6580;box-shadow:0 12px 35px #0003}
+.register-wrap h1{font-size:clamp(23px,2.3vw,30px);line-height:1.2;margin-bottom:10px}
+.register-wrap p{font-size:15px;line-height:1.4;margin-bottom:16px}
+.register-wrap label{font-size:14px;margin:15px 0 7px}
+.register-wrap input,.register-wrap select{font-size:16px;min-height:44px;padding:10px 13px}
+.register-wrap .primary{font-size:15px;min-height:43px;padding:10px 20px;margin-top:18px}
+.section-head h1,.window-content>h1{font-size:26px}
+.stat-card small{font-size:13px}.stat{font-size:clamp(19px,2vw,26px)}
+.card h2{font-size:18px}.report-row{font-size:14px}
+.start-menu{bottom:43px}
+@media(max-width:950px){.desktop-icons{width:156px;grid-template-columns:repeat(2,73px);grid-auto-rows:82px;gap:5px}.desktop-icon{width:73px;min-height:77px;max-height:82px;font-size:11px}.desktop-icon .symbol{font-size:27px}.window:not(.maximized){left:19%;width:79%;top:4%;height:91%}.window-content{padding:15px}.register-wrap>.card{padding:20px 22px}}
+@media(max-width:650px){.desktop-icons{width:77px;grid-template-columns:72px;grid-auto-rows:74px}.desktop-icon{width:72px;min-height:70px;max-height:74px}.window:not(.maximized){left:80px;width:calc(100% - 85px);top:2%;height:96%}.register-wrap>.card{padding:16px}.register-wrap h1{font-size:21px}}
+@media(max-height:620px){.desktop-top{height:32px;flex-basis:32px}.taskbar{height:38px}.start-menu{bottom:38px}.window-titlebar{height:36px}.window:not(.maximized){top:3%;height:94%}.register-wrap{padding:4px 0}.register-wrap>.card{padding:14px 24px}.register-wrap h1{font-size:23px;margin-bottom:5px}.register-wrap p{margin-bottom:9px}.register-wrap label{margin:8px 0 4px}.register-wrap input,.register-wrap select{min-height:36px;padding:6px 10px}.register-wrap .primary{min-height:36px;margin-top:10px}.desktop-icons{grid-auto-rows:76px}.desktop-icon{min-height:72px;max-height:76px}}
+@media(max-height:450px){.register-wrap{display:block}.register-wrap>.card{padding:12px 18px}.register-wrap h1{font-size:20px}.register-wrap p{font-size:13px}.register-wrap input,.register-wrap select{min-height:32px}}
