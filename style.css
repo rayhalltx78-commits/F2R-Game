@@ -51,3 +51,11 @@
 @media(max-width:650px){.desktop-icons{width:77px;grid-template-columns:72px;grid-auto-rows:74px}.desktop-icon{width:72px;min-height:70px;max-height:74px}.window:not(.maximized){left:80px;width:calc(100% - 85px);top:2%;height:96%}.register-wrap>.card{padding:16px}.register-wrap h1{font-size:21px}}
 @media(max-height:620px){.desktop-top{height:32px;flex-basis:32px}.taskbar{height:38px}.start-menu{bottom:38px}.window-titlebar{height:36px}.window:not(.maximized){top:3%;height:94%}.register-wrap{padding:4px 0}.register-wrap>.card{padding:14px 24px}.register-wrap h1{font-size:23px;margin-bottom:5px}.register-wrap p{margin-bottom:9px}.register-wrap label{margin:8px 0 4px}.register-wrap input,.register-wrap select{min-height:36px;padding:6px 10px}.register-wrap .primary{min-height:36px;margin-top:10px}.desktop-icons{grid-auto-rows:76px}.desktop-icon{min-height:72px;max-height:76px}}
 @media(max-height:450px){.register-wrap{display:block}.register-wrap>.card{padding:12px 18px}.register-wrap h1{font-size:20px}.register-wrap p{font-size:13px}.register-wrap input,.register-wrap select{min-height:32px}}
+
+/* v0.3.2 — narrower desktop application window */
+.window:not(.maximized){left:30%;width:60%;top:8%;height:81%;max-width:980px}
+.register-wrap{width:min(100%,530px);max-width:530px}
+.register-wrap>.card{padding:22px 24px}
+@media(max-width:950px){.window:not(.maximized){left:25%;width:69%;top:6%;height:85%}.register-wrap{width:min(100%,500px)}}
+@media(max-width:650px){.window:not(.maximized){left:80px;width:calc(100% - 90px);top:3%;height:92%}.register-wrap{width:100%}}
+@media(max-height:620px){.window:not(.maximized){top:4%;height:91%}.register-wrap>.card{padding:14px 20px}}
